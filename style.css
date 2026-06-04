@@ -381,42 +381,5 @@ input[type=range]::-webkit-slider-runnable-track {
     white-space: pre-line;
     z-index: 100;
     opacity: 0;
-<<<<<<< HEAD
     transition: opacity 0.2s;
 }
-=======
-    transform: translateY(5px);
-    transition: opacity 0.2s ease, transform 0.2s ease;
-}
-
-.tooltip.show {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.tooltip-title {
-    font-weight: 700;
-    color: #fff;
-    margin-bottom: 8px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    font-size: 0.95rem;
-}
-
-.tooltip-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 5px;
-}
-
-.tooltip-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-}
-
-.dot-prospects { background: #64748b; }
-.dot-leads { background: #3b82f6; }
-.dot-customers { background: #10b981; }
->>>>>>> parent of 1a164d1 (Merge pull request #5 from velin745-creator/Tabs-redesign)
