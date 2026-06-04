@@ -159,9 +159,11 @@ input[type="number"],
 }
 
 .top-row {
-    display: flex;
-    gap: 20px;
-    height: 400px;
+        display: flex;
+        gap: 20px;
+        min-height: 380px;
+        align-items: flex-start;
+        flex-wrap: wrap;
 }
 
 /* Chart Card */
@@ -261,20 +263,33 @@ input[type="number"],
 }
 
 /* Stats Panel */
-.stats-panel {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    width: 240px;
-}
+    .stats-panel {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        width: 260px;
+        flex-shrink: 0;
+        height: 100%;
+    }
 
 .stat-card {
-    padding: 15px 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 10px;
-    flex: 1;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 12px;
+        flex: none;
+        min-width: 200px;
+        background: linear-gradient(145deg, rgba(39, 44, 53, 0.4) 0%, rgba(28, 33, 42, 0.8) 100%);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
 }
 
 .stat-header {
@@ -282,36 +297,85 @@ input[type="number"],
     justify-content: space-between;
     align-items: center;
     font-size: 0.95rem;
-    color: var(--text-main);
+    font-weight: 500;
+    color: var(--text-muted);
+}
+
+.stat-header .stat-title {
+    display: flex;
+    align-items: center;
 }
 
 .stat-header .icon {
-    font-size: 1.1rem;
-    margin-right: 5px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    font-size: 1rem;
+    margin-right: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: inset 0 1px 1px rgba(255,255,255,0.1);
 }
 
 .stat-percent {
-    font-weight: 600;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--text-main);
 }
 
 .stat-value {
-    font-size: 2.2rem;
-    font-weight: 700;
+    font-size: 2.6rem;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: -1px;
+    line-height: 1;
 }
 
 .progress-bar {
     width: 100%;
-    height: 8px;
-    background-color: var(--input-bg);
-    border-radius: 4px;
-    overflow: hidden;
+    height: 6px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 6px;
+    position: relative;
 }
 
 .progress-bar .fill {
     height: 100%;
-    background-color: var(--text-main);
-    border-radius: 4px;
-    transition: width 0.3s ease;
+    border-radius: 6px;
+    transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    position: relative;
+}
+
+/* Let's add a glowing thumb to the end of the bar */
+.progress-bar .fill::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 10px;
+    height: 10px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+}
+
+/* Match progress fill colors to the bar graph */
+#fill-prospects {
+    background: linear-gradient(90deg, #475569, #94a3b8);
+    box-shadow: 0 0 10px rgba(148, 163, 184, 0.3);
+}
+
+#fill-leads {
+    background: linear-gradient(90deg, #2563eb, #60a5fa);
+    box-shadow: 0 0 10px rgba(96, 165, 250, 0.4);
+}
+
+#fill-customers {
+    background: linear-gradient(90deg, #10b981, #34d399);
+    box-shadow: 0 0 10px rgba(52, 211, 153, 0.4);
 }
 
 /* Sliders Section */
@@ -383,3 +447,77 @@ input[type=range]::-webkit-slider-runnable-track {
     opacity: 0;
     transition: opacity 0.2s;
 }
+<<<<<<< HEAD
+=======
+
+.tooltip.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.tooltip-title {
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.95rem;
+}
+
+.tooltip-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 5px;
+}
+
+.tooltip-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.dot-prospects { background: #64748b; }
+.dot-leads { background: #3b82f6; }
+.dot-customers { background: #10b981; }
+
+/* Responsive adjustments - ensure chart, stats and sliders fit on narrow screens */
+@media (max-width: 900px) {
+    .top-row {
+        flex-direction: column;
+        min-height: auto;
+        gap: 14px;
+    }
+
+    .chart-card {
+        order: 0;
+        width: 100%;
+        padding: 12px;
+    }
+
+    .stats-panel {
+        order: 1;
+        width: 100%;
+        flex-direction: row;
+        gap: 12px;
+        overflow-x: auto;
+        padding-bottom: 6px;
+    }
+
+    .stat-card {
+        min-width: 180px;
+        flex: none;
+    }
+
+    .sliders-container {
+        order: 2;
+        width: 100%;
+        z-index: 0;
+        padding: 16px;
+    }
+
+    /* make sure tooltip and fills don't overlap cards */
+    .tooltip { z-index: 200; }
+    .stat-card { z-index: 50; }
+}
+>>>>>>> parent of 9422772 (Revert "Merge pull request #5 from velin745-creator/Tabs-redesign")
