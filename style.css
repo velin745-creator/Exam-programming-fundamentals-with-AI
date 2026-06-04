@@ -217,51 +217,29 @@ input[type="number"],
     justify-content: space-around;
     padding: 10px 0;
     
-    /* 16.66% matches the 6 columns perfectly (0-20, 20-40... up to 120) */
-    background-size: 16.666% 100%;
-    background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 73px 100%;
+    background-image: linear-gradient(to right, var(--border-color) 1px, transparent 1px);
 }
 
 .chart-row {
     position: relative;
-    height: 48px;
+    height: 35px;
     width: 100%;
-    border-radius: 8px;
-    transition: background-color 0.2s ease;
-}
-
-.chart-row:hover {
-    background-color: rgba(255, 255, 255, 0.03);
 }
 
 .bar {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
+    height: 100%;
+    border-radius: 0 4px 4px 0;
     cursor: pointer;
-    border-radius: 20px;
-    transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: width 0.3s ease;
 }
 
-.bar.prospects { 
-    background: linear-gradient(90deg, #1e293b, #334155);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    z-index: 1; 
-    height: 36px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-}
-.bar.leads { 
-    background: linear-gradient(90deg, #2563eb, #60a5fa);
-    box-shadow: 0 0 15px rgba(59, 130, 246, 0.25);
-    z-index: 2; 
-    height: 22px; 
-}
-.bar.customers { 
-    background: linear-gradient(90deg, #10b981, #34d399);
-    box-shadow: 0 0 15px rgba(16, 185, 129, 0.35);
-    z-index: 3; 
-    height: 10px; 
-}
+.bar.prospects { background-color: var(--accent-dark); z-index: 1; }
+.bar.leads { background-color: var(--accent-mid); z-index: 2; height: 70%; }
+.bar.customers { background-color: var(--accent-light); z-index: 3; height: 50%; }
 
 .x-axis {
     margin-top: 10px;
@@ -393,51 +371,15 @@ input[type=range]::-webkit-slider-runnable-track {
 /* Tooltip */
 .tooltip {
     position: absolute;
-    background: rgba(20, 25, 35, 0.7);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-    color: #f1f5f9;
-    padding: 12px 16px;
-    border-radius: 10px;
-    font-size: 0.85rem;
-    font-weight: 500;
+    background: rgba(40, 45, 55, 0.95);
+    border: 1px solid var(--accent-light);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 0.8rem;
     pointer-events: none;
-    white-space: nowrap;
+    white-space: pre-line;
     z-index: 100;
     opacity: 0;
-    transform: translateY(5px);
-    transition: opacity 0.2s ease, transform 0.2s ease;
+    transition: opacity 0.2s;
 }
-
-.tooltip.show {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.tooltip-title {
-    font-weight: 700;
-    color: #fff;
-    margin-bottom: 8px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    font-size: 0.95rem;
-}
-
-.tooltip-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 5px;
-}
-
-.tooltip-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-}
-
-.dot-prospects { background: #64748b; }
-.dot-leads { background: #3b82f6; }
-.dot-customers { background: #10b981; }

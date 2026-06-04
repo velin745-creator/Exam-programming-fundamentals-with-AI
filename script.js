@@ -165,19 +165,14 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Hover Events for Tooltip
             row.addEventListener('mousemove', (e) => {
-                tooltip.classList.add('show');
-                tooltip.style.left = e.pageX + 20 + 'px';
-                tooltip.style.top = e.pageY - 40 + 'px';
-                tooltip.innerHTML = `
-                    <div class="tooltip-title">${monthWord} #${i}</div>
-                    <div class="tooltip-row"><div class="tooltip-dot dot-prospects"></div>${prospectsWord}: ${mProspects}</div>
-                    <div class="tooltip-row"><div class="tooltip-dot dot-leads"></div>${leadsWord}: ${mLeads}</div>
-                    <div class="tooltip-row"><div class="tooltip-dot dot-customers"></div>${customersWord}: ${mCustomers}</div>
-                `;
+                tooltip.style.opacity = '1';
+                tooltip.style.left = e.pageX + 15 + 'px';
+                tooltip.style.top = e.pageY - 20 + 'px';
+                tooltip.innerHTML = `${monthWord} #${i}\n${prospectsWord}: ${mProspects}\n${leadsWord}: ${mLeads}\n${customersWord}: ${mCustomers}`;
             });
             
             row.addEventListener('mouseleave', () => {
-                tooltip.classList.remove('show');
+                tooltip.style.opacity = '0';
             });
             
             row.appendChild(barProspects);
