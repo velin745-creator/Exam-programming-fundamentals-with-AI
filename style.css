@@ -1,14 +1,14 @@
 :root {
-    --bg-dark: #ffffff; /* page background (kept variable name for compatibility) */
-    --panel-bg: #f6f7f9; /* panels and cards */
-    --card-bg: #ffffff;
-    --input-bg: #f0f3f7; /* inputs and progress backgrounds */
-    --text-main: #0f1724; /* primary text (dark) */
-    --text-muted: #475569; /* muted text */
-    --border-color: #e6e9ee; /* subtle light borders */
-    --accent-light: #64748b;
-    --accent-mid: #3b82f6;
-    --accent-dark: #1f2937;
+    --bg-dark: #12151c;
+    --panel-bg: #1c212a;
+    --card-bg: #272c35;
+    --input-bg: #222731;
+    --text-main: #e2e8f0;
+    --text-muted: #94a3b8;
+    --border-color: #333a45;
+    --accent-light: #8e9bb0;
+    --accent-mid: #687588;
+    --accent-dark: #4b5563;
     --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
@@ -348,7 +348,7 @@ input[type=range]::-webkit-slider-thumb {
     height: 20px;
     width: 20px;
     border-radius: 50%;
-    background: var(--text-main);
+    background: #ffffff;
     cursor: pointer;
     margin-top: -8px;
     box-shadow: 0 0 5px rgba(0,0,0,0.5);
