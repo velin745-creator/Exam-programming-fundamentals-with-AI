@@ -45,13 +45,38 @@ body {
 .logo {
     display: flex;
     align-items: center;
-    gap: 10px;
-    color: var(--accent-light);
+    gap: 14px;
+}
+
+.logo-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(59, 130, 246, 0.1);
+    padding: 8px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.15);
+    border: 1px solid rgba(59, 130, 246, 0.2);
 }
 
 .logo h1 {
-    font-size: 1.5rem;
-    font-weight: 500;
+    font-size: 1.8rem;
+    letter-spacing: -0.5px;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+.logo .text-bold {
+    font-weight: 700;
+    color: #e2e8f0;
+}
+
+.logo .text-light {
+    font-weight: 300;
+    background: linear-gradient(90deg, #94a3b8, #64748b);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .dashboard {
