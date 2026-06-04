@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const valLeads = document.getElementById('val-leads');
     const valCustomers = document.getElementById('val-customers');
     
+    const pctProspects = document.getElementById('pct-prospects');
     const pctLeads = document.getElementById('pct-leads');
     const pctCustomers = document.getElementById('pct-customers');
     
@@ -74,20 +75,24 @@ document.addEventListener('DOMContentLoaded', () => {
         const rev = parseFloat(revenueInput.value) || 0;
         const aov = parseFloat(aovInput.value) || 1;
         
-        const leadRate = parseFloat(leadRateInput.value) / 100;
-        const prospectRate = parseFloat(prospectRateInput.value) / 100;
+        const leadRatePercentage = parseFloat(leadRateInput.value) || 1;
+        const prospectRatePercentage = parseFloat(prospectRateInput.value) || 1;
         
-        // Math derived from funnel logic
+        // Формула 01: Необходимия брой клиенти = Оборот / Средна стойност на поръчката
         const targetCustomers = Math.ceil(rev / aov);
-        const targetLeads = Math.ceil(targetCustomers / leadRate);
-        const targetProspects = Math.ceil(targetLeads / prospectRate);
+        
+        // Формула 02: Потенциални клиенти (leads) = Клиенти * 100 / Процент на отговорите
+        const targetLeads = Math.ceil((targetCustomers * 100) / leadRatePercentage);
+        
+        // Формула 03: Контакти (prospects) = Потенциални клиенти * 100 / Процент на отговорите
+        const targetProspects = Math.ceil((targetLeads * 100) / prospectRatePercentage);
         
         return {
             customers: targetCustomers,
             leads: targetLeads,
             prospects: targetProspects,
-            leadRate: leadRate,
-            prospectRate: prospectRate
+            leadRate: leadRatePercentage / 100, // kept as decimal for ui percentages mapping
+            prospectRate: prospectRatePercentage / 100
         };
     }
     
@@ -100,14 +105,16 @@ document.addEventListener('DOMContentLoaded', () => {
         valCustomers.textContent = data.customers;
         
         // Update Stat Percentages
+        const prospectsPctVal = data.prospects > 0 ? 100 : 0;
         const leadsPctVal = data.prospects > 0 ? ((data.leads / data.prospects) * 100) : 0;
         const custPctVal = data.prospects > 0 ? ((data.customers / data.prospects) * 100) : 0;
         
+        pctProspects.textContent = prospectsPctVal + '%';
         pctLeads.textContent = Math.round(leadsPctVal) + '%';
         pctCustomers.textContent = Math.round(custPctVal) + '%';
         
         // Update Progress Bars (Relative to prospects as 100%)
-        fillProspects.style.width = '100%';
+        fillProspects.style.width = prospectsPctVal + '%';
         fillLeads.style.width = Math.min(leadsPctVal, 100) + '%';
         fillCustomers.style.width = Math.min(custPctVal, 100) + '%';
         
