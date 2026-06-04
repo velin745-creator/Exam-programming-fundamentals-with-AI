@@ -11,10 +11,18 @@
         <!-- Header -->
         <header class="header">
             <div class="logo">
-                <svg viewBox="0 0 24 24" fill="#aab2c0" width="24" height="24">
-                    <path d="M3 4h18v2l-7 8v6h-4v-6L3 6V4z"/>
-                </svg>
-                <h1>LeadPredictor</h1>
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="url(#logo-grad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <defs>
+                            <linearGradient id="logo-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#60a5fa" />
+                                <stop offset="100%" stop-color="#3b82f6" />
+                            </linearGradient>
+                        </defs>
+                        <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+                    </svg>
+                </div>
+                <h1><span class="text-bold">Lead</span><span class="text-light">Predictor</span></h1>
             </div>
         </header>
         
@@ -22,41 +30,43 @@
             <!-- Sidebar -->
             <aside class="sidebar">
                 <div class="form-group">
-                    <label>Language</label>
-                    <select class="custom-select">
-                        <option>🇺🇸 English</option>
+                    <label data-i18n="language">Language</label>
+                    <select class="custom-select" id="language-select">
+                        <option value="en">🇺🇸 English</option>
+                        <option value="bg">🇧🇬 Bulgarian</option>
                     </select>
                 </div>
                 
                 <div class="form-group">
-                    <label>Currency</label>
-                    <select class="custom-select">
-                        <option>$ US Dollar</option>
+                    <label data-i18n="currency">Currency</label>
+                    <select class="custom-select" id="currency-select">
+                        <option value="usd">$ US Dollar</option>
+                        <option value="eur">€ EURO</option>
                     </select>
                 </div>
                 
                 <div class="form-group">
-                    <label>Campaign Start</label>
+                    <label data-i18n="campaign_start">Campaign Start</label>
                     <input type="date" id="start-date" value="2026-05-08">
                 </div>
                 
                 <div class="form-group">
-                    <label>Campaign End</label>
+                    <label data-i18n="campaign_end">Campaign End</label>
                     <input type="date" id="end-date" value="2026-11-04">
                 </div>
                 
                 <div class="form-group">
-                    <label>Total Revenue</label>
+                    <label data-i18n="total_revenue">Total Revenue</label>
                     <div class="input-with-symbol">
-                        <span class="symbol">$</span>
+                        <span class="symbol currency-symbol">$</span>
                         <input type="number" id="revenue" value="10000">
                     </div>
                 </div>
                 
                 <div class="form-group">
-                    <label>Avg. Order Value</label>
+                    <label data-i18n="avg_order_value">Avg. Order Value</label>
                     <div class="input-with-symbol">
-                        <span class="symbol">$</span>
+                        <span class="symbol currency-symbol">$</span>
                         <input type="number" id="aov" value="1000">
                     </div>
                 </div>
@@ -69,7 +79,7 @@
                     <div class="chart-card panel">
                         <div class="chart-wrapper">
                             <div class="y-axis">
-                                <div class="y-label-vertical">Months</div>
+                                <div class="y-label-vertical" data-i18n="months">Months</div>
                                 <div class="y-ticks">
                                     <span>1-</span>
                                     <span>2-</span>
@@ -95,7 +105,7 @@
                                 <span>100</span>
                                 <span>120</span>
                             </div>
-                            <div class="x-label-horizontal">people</div>
+                            <div class="x-label-horizontal" data-i18n="people">people</div>
                         </div>
                     </div>
                     
@@ -103,8 +113,8 @@
                     <div class="stats-panel">
                         <div class="stat-card panel">
                             <div class="stat-header">
-                                <div class="stat-title"><span class="icon">📁</span> Prospects</div>
-                                <div class="stat-percent">100%</div>
+                                <div class="stat-title"><span class="icon">📁</span> <span data-i18n="prospects">Prospects</span></div>
+                                <div class="stat-percent" id="pct-prospects">100%</div>
                             </div>
                             <div class="stat-value" id="val-prospects">125</div>
                             <div class="progress-bar"><div class="fill" id="fill-prospects" style="width:100%"></div></div>
@@ -112,7 +122,7 @@
                         
                         <div class="stat-card panel">
                             <div class="stat-header">
-                                <div class="stat-title"><span class="icon">👤</span> Leads</div>
+                                <div class="stat-title"><span class="icon">👤</span> <span data-i18n="leads">Leads</span></div>
                                 <div class="stat-percent" id="pct-leads">20%</div>
                             </div>
                             <div class="stat-value" id="val-leads">25</div>
@@ -121,7 +131,7 @@
                         
                         <div class="stat-card panel">
                             <div class="stat-header">
-                                <div class="stat-title"><span class="icon">🏆</span> Customers</div>
+                                <div class="stat-title"><span class="icon">🏆</span> <span data-i18n="customers">Customers</span></div>
                                 <div class="stat-percent" id="pct-customers">8%</div>
                             </div>
                             <div class="stat-value" id="val-customers">10</div>
@@ -133,7 +143,7 @@
                 <!-- Bottom Sliders Section -->
                 <div class="sliders-container panel">
                     <div class="slider-group">
-                        <label>Lead Response Rate</label>
+                        <label data-i18n="lead_response_rate">Lead Response Rate</label>
                         <div class="slider-wrapper">
                             <input type="range" id="lead-rate" min="1" max="100" value="40" step="1">
                         </div>
@@ -141,7 +151,7 @@
                     </div>
                     
                     <div class="slider-group">
-                        <label>Prospect Response Rate</label>
+                        <label data-i18n="prospect_response_rate">Prospect Response Rate</label>
                         <div class="slider-wrapper">
                             <input type="range" id="prospect-rate" min="1" max="100" value="20" step="1">
                         </div>

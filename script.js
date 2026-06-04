@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const valLeads = document.getElementById('val-leads');
     const valCustomers = document.getElementById('val-customers');
     
+    const pctProspects = document.getElementById('pct-prospects');
     const pctLeads = document.getElementById('pct-leads');
     const pctCustomers = document.getElementById('pct-customers');
     
@@ -21,6 +22,48 @@ document.addEventListener('DOMContentLoaded', () => {
     const leadRateVal = document.getElementById('lead-rate-val');
     const prospectRateVal = document.getElementById('prospect-rate-val');
     
+    const languageSelect = document.getElementById('language-select');
+    const currencySelect = document.getElementById('currency-select');
+    const currencySymbols = document.querySelectorAll('.currency-symbol');
+    
+    // Translations dictionaries
+    const i18n = {
+        en: {
+            language: "Language",
+            currency: "Currency",
+            campaign_start: "Campaign Start",
+            campaign_end: "Campaign End",
+            total_revenue: "Total Revenue",
+            avg_order_value: "Avg. Order Value",
+            months: "Months",
+            people: "people",
+            prospects: "Prospects",
+            leads: "Leads",
+            customers: "Customers",
+            lead_response_rate: "Lead Response Rate",
+            prospect_response_rate: "Prospect Response Rate",
+            month_word: "Month"
+        },
+        bg: {
+            language: "Език",
+            currency: "Валута",
+            campaign_start: "Начало на кампанията",
+            campaign_end: "Край на кампанията",
+            total_revenue: "Общи приходи",
+            avg_order_value: "Средна стойност на поръчката",
+            months: "Месеци",
+            people: "хора",
+            prospects: "Потенциални",
+            leads: "Лийдове",
+            customers: "Клиенти",
+            lead_response_rate: "Процент на отговор (Лийдове)",
+            prospect_response_rate: "Процент на отговор (Потенциални)",
+            month_word: "Месец"
+        }
+    };
+    
+    let currentLang = 'en';
+
     // Chart Area
     const chartArea = document.getElementById('chart-area');
     const tooltip = document.getElementById('tooltip');
@@ -32,20 +75,24 @@ document.addEventListener('DOMContentLoaded', () => {
         const rev = parseFloat(revenueInput.value) || 0;
         const aov = parseFloat(aovInput.value) || 1;
         
-        const leadRate = parseFloat(leadRateInput.value) / 100;
-        const prospectRate = parseFloat(prospectRateInput.value) / 100;
+        const leadRatePercentage = parseFloat(leadRateInput.value) || 1;
+        const prospectRatePercentage = parseFloat(prospectRateInput.value) || 1;
         
-        // Math derived from funnel logic
+        // Формула 01: Необходимия брой клиенти = Оборот / Средна стойност на поръчката
         const targetCustomers = Math.ceil(rev / aov);
-        const targetLeads = Math.ceil(targetCustomers / leadRate);
-        const targetProspects = Math.ceil(targetLeads / prospectRate);
+        
+        // Формула 02: Потенциални клиенти (leads) = Клиенти * 100 / Процент на отговорите
+        const targetLeads = Math.ceil((targetCustomers * 100) / leadRatePercentage);
+        
+        // Формула 03: Контакти (prospects) = Потенциални клиенти * 100 / Процент на отговорите
+        const targetProspects = Math.ceil((targetLeads * 100) / prospectRatePercentage);
         
         return {
             customers: targetCustomers,
             leads: targetLeads,
             prospects: targetProspects,
-            leadRate: leadRate,
-            prospectRate: prospectRate
+            leadRate: leadRatePercentage / 100, // kept as decimal for ui percentages mapping
+            prospectRate: prospectRatePercentage / 100
         };
     }
     
@@ -58,14 +105,16 @@ document.addEventListener('DOMContentLoaded', () => {
         valCustomers.textContent = data.customers;
         
         // Update Stat Percentages
+        const prospectsPctVal = data.prospects > 0 ? 100 : 0;
         const leadsPctVal = data.prospects > 0 ? ((data.leads / data.prospects) * 100) : 0;
         const custPctVal = data.prospects > 0 ? ((data.customers / data.prospects) * 100) : 0;
         
+        pctProspects.textContent = prospectsPctVal + '%';
         pctLeads.textContent = Math.round(leadsPctVal) + '%';
         pctCustomers.textContent = Math.round(custPctVal) + '%';
         
         // Update Progress Bars (Relative to prospects as 100%)
-        fillProspects.style.width = '100%';
+        fillProspects.style.width = prospectsPctVal + '%';
         fillLeads.style.width = Math.min(leadsPctVal, 100) + '%';
         fillCustomers.style.width = Math.min(custPctVal, 100) + '%';
         
@@ -79,6 +128,10 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateChart(data) {
         chartArea.innerHTML = '';
         const months = 6;
+        const monthWord = i18n[currentLang].month_word;
+        const prospectsWord = i18n[currentLang].prospects;
+        const leadsWord = i18n[currentLang].leads;
+        const customersWord = i18n[currentLang].customers;
         
         // For visual representation similar to the screenshot, 
         // the funnel accumulates or distributes over 6 months linearly.
@@ -112,14 +165,19 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Hover Events for Tooltip
             row.addEventListener('mousemove', (e) => {
-                tooltip.style.opacity = '1';
-                tooltip.style.left = e.pageX + 15 + 'px';
-                tooltip.style.top = e.pageY - 20 + 'px';
-                tooltip.innerHTML = `Month #${i}\nProspects: ${mProspects}\nLeads: ${mLeads}\nCustomers: ${mCustomers}`;
+                tooltip.classList.add('show');
+                tooltip.style.left = e.pageX + 20 + 'px';
+                tooltip.style.top = e.pageY - 40 + 'px';
+                tooltip.innerHTML = `
+                    <div class="tooltip-title">${monthWord} #${i}</div>
+                    <div class="tooltip-row"><div class="tooltip-dot dot-prospects"></div>${prospectsWord}: ${mProspects}</div>
+                    <div class="tooltip-row"><div class="tooltip-dot dot-leads"></div>${leadsWord}: ${mLeads}</div>
+                    <div class="tooltip-row"><div class="tooltip-dot dot-customers"></div>${customersWord}: ${mCustomers}</div>
+                `;
             });
             
             row.addEventListener('mouseleave', () => {
-                tooltip.style.opacity = '0';
+                tooltip.classList.remove('show');
             });
             
             row.appendChild(barProspects);
@@ -130,7 +188,30 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
+    function applyTranslations() {
+        const elements = document.querySelectorAll('[data-i18n]');
+        elements.forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (i18n[currentLang] && i18n[currentLang][key]) {
+                el.textContent = i18n[currentLang][key];
+            }
+        });
+        updateChart(calculateData());
+    }
+
     // Event Listeners
+    languageSelect.addEventListener('change', (e) => {
+        currentLang = e.target.value;
+        applyTranslations();
+    });
+
+    currencySelect.addEventListener('change', (e) => {
+        const symbol = e.target.value === 'eur' ? '€' : '$';
+        currencySymbols.forEach(el => {
+            el.textContent = symbol;
+        });
+    });
+
     revenueInput.addEventListener('input', updateUI);
     aovInput.addEventListener('input', updateUI);
     leadRateInput.addEventListener('input', updateUI);
